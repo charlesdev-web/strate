@@ -84,9 +84,9 @@ a{color:inherit}
 @media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:520px;margin-inline:auto;width:100%}}
 
 /* ---------- Anatomie ---------- */
-.anat{position:relative;height:340vh;border-top:1px solid var(--filet)}
+.anat{position:relative;height:190vh;border-top:1px solid var(--filet)}
 .anat-stick{position:sticky;top:68px;height:calc(100vh - 68px);display:flex;align-items:center;overflow:hidden}
-.anat-stick .wrap{width:100%;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:40px;align-items:center}
+.anat-grille{width:100%;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:40px;align-items:center}
 .anat-intro{display:flex;flex-direction:column;gap:18px}
 .anat-intro h2{font-size:clamp(2.2rem,4vw,3.4rem)}
 .anat-intro p{color:var(--gris);max-width:28em}
@@ -94,29 +94,39 @@ a{color:inherit}
 .compteur b{font-family:var(--f-display);font-weight:500;font-size:4.2rem;line-height:1;color:var(--bordeaux);font-variant-numeric:tabular-nums;min-width:1.25em}
 .compteur span{display:block;font-family:var(--f-display);font-style:italic;font-size:1.25rem;color:var(--encre)}
 .anat-scene{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:56px;align-items:start;min-width:0}
-.coupe{position:relative;width:100%;max-width:min(470px, calc((100vh - 130px) * .67));margin-inline:auto;aspect-ratio:470/700}
+.coupe{position:relative;width:100%;max-width:min(430px, calc((100vh - 140px) * .67));margin-inline:auto;aspect-ratio:470/700}
+.coupe-in{position:absolute;inset:0;transform-origin:50% 62%;will-change:transform}
 .disque{position:absolute;display:block;height:auto;max-width:none;will-change:transform,opacity;transition:opacity .6s ease;user-select:none;-webkit-user-drag:none}
 .disque.dim{opacity:.28}
 .ombre{position:absolute;left:10%;right:10%;top:90%;height:7%;will-change:transform;border-radius:50%;background:radial-gradient(closest-side,rgba(60,30,20,.28),rgba(60,30,20,0))}
 .lbl::before{content:"";position:absolute;right:calc(100% + 8px);top:.75em;width:28px;height:1px;background:var(--or)}
 .lbl::after{content:"";position:absolute;right:calc(100% + 34px);top:calc(.75em - 2px);width:5px;height:5px;border-radius:50%;background:var(--or)}
 .labels{position:relative;height:100%}
-.lbl{position:absolute;left:0;right:0;top:0;opacity:0;will-change:transform,opacity}
+.lbl{position:absolute;left:0;right:0;top:0;opacity:0;will-change:transform,opacity;background:none;border:0;padding:4px 0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.lbl:hover h3{color:var(--bordeaux-2)}
+.disque{cursor:pointer}
 .lbl h3{font-size:1.25rem;font-style:italic;color:var(--gris);transition:color .3s}
 .lbl p{font-family:var(--f-texte);font-size:.85rem;color:var(--gris);margin-top:2px}
 .lbl.on h3{color:var(--bordeaux)}
 .lbl.on p{color:var(--encre)}
 .lbl .n{font-family:var(--f-mono);font-size:.7rem;color:var(--or-texte);margin-right:6px;font-style:normal}
 .liste-mobile{display:none}
+.anat-nav{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:10px}
+.nav-couches{display:flex;align-items:center;gap:14px}
+.fleche{width:44px;height:44px;border-radius:50%;border:1px solid rgba(92,20,37,.3);background:transparent;color:var(--bordeaux);font-size:1.15rem;cursor:pointer;transition:background .2s,color .2s}
+.fleche:hover{background:var(--bordeaux);color:var(--creme)}
+.points{display:flex;gap:8px}
+.points button{width:30px;height:30px;border-radius:50%;border:1px solid rgba(92,20,37,.25);background:transparent;font:500 .72rem var(--f-mono);color:var(--gris);cursor:pointer;transition:all .2s}
+.points button[aria-selected=true]{background:var(--bordeaux);border-color:var(--bordeaux);color:var(--creme)}
 @media (max-width:860px){
-  .anat{height:300vh}
-  .anat-stick{align-items:flex-start;padding-top:18px}
-  .anat-stick .wrap{grid-template-columns:1fr;gap:10px}
+  .anat{height:170vh}
+  .anat-stick{align-items:flex-start;padding-top:16px}
+  .anat-grille{grid-template-columns:1fr;gap:10px}
   .anat-intro p,.anat-intro .eyebrow{display:none}
   .anat-intro h2{font-size:1.6rem}
   .compteur{margin-top:0}.compteur b{font-size:2.6rem}.compteur span{display:none}
   .anat-scene{grid-template-columns:1fr}
-  .coupe{max-width:min(320px, calc((100vh - 310px) * .67))}
+  .coupe{max-width:min(330px, calc((100vh - 340px) * .67))}
   .labels{display:none}
   .liste-mobile b{font-family:var(--f-display);font-weight:400;font-style:italic;font-size:1.3rem;color:var(--bordeaux)}
   .liste-mobile{display:block;font-size:.9rem;color:var(--gris);text-align:center;min-height:2.6em}
@@ -132,6 +142,10 @@ section.bloc{padding-block:110px}
 @media (max-width:600px){.grille{grid-template-columns:1fr}}
 .carte{background:var(--creme-2);border-radius:4px;padding:20px 22px 24px;overflow:hidden;display:flex;flex-direction:column;gap:6px;position:relative}
 .carte .ph{overflow:hidden;border-radius:2px;margin:-20px -22px 10px;aspect-ratio:4/3}
+.carte .ph{cursor:zoom-in;position:relative}
+.carte .ph::after{content:"Agrandir";position:absolute;right:12px;bottom:12px;font:600 .74rem var(--f-texte);letter-spacing:.06em;color:var(--creme);background:rgba(43,17,23,.55);padding:.35em .8em;border-radius:999px;opacity:0;transition:opacity .3s}
+.carte .ph:hover::after,.carte .ph:focus-visible::after{opacity:1}
+@media (hover:none){.carte .ph::after{opacity:1}}
 .carte .ph img{width:100%;height:100%;object-fit:cover;object-position:58% 62%;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
 .carte:hover .ph img,.carte:focus-within .ph img{transform:scale(1.07)}
 .carte .ligne{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
@@ -209,6 +223,29 @@ footer{padding-block:40px 48px;border-top:1px solid var(--filet);margin-top:90px
 footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
 footer p{font-size:.85rem;color:var(--gris);max-width:44em}
 
+/* ---------- Visionneuse photo ---------- */
+.visio{position:fixed;inset:0;z-index:100;background:rgba(30,10,14,.94);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:vIn .3s ease}
+@keyframes vIn{from{opacity:0}}
+.visio figure{margin:0;width:min(1100px,100%);display:flex;flex-direction:column;gap:18px;max-height:100%}
+.v-cadre{position:relative;overflow:hidden;border-radius:4px;background:#1c0a0e;touch-action:pan-y}
+.v-cadre img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain;transition:transform .4s ease;cursor:zoom-in}
+.v-cadre.zoom img{transform:scale(2);cursor:zoom-out}
+.visio figcaption{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;color:var(--creme)}
+.visio figcaption h3{font-size:clamp(1.8rem,4vw,2.6rem);font-style:italic}
+.visio .v-gout{color:rgba(246,239,234,.8)}
+.visio .v-prix{font-size:.9rem;color:#D9B977;margin-top:4px}
+.visio .btn{background:var(--creme);color:var(--bordeaux);border-color:var(--creme)}
+.visio .btn:hover{background:#fff}
+.v-fermer,.v-nav{position:absolute;border:0;background:rgba(246,239,234,.12);color:var(--creme);width:46px;height:46px;border-radius:50%;font-size:1.4rem;cursor:pointer;display:grid;place-items:center}
+.v-fermer:hover,.v-nav:hover{background:rgba(246,239,234,.25)}
+.v-fermer{top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px))}
+.v-nav{top:50%;transform:translateY(-50%)}
+.v-prec{left:max(10px,env(safe-area-inset-left,0px))}
+.v-suiv{right:max(10px,env(safe-area-inset-right,0px))}
+@media (max-width:700px){.v-nav{top:auto;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:none}.visio figure{padding-bottom:60px}}
+html.bloque{overflow:hidden}
+.visio[hidden],[hidden]{display:none!important}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .strata{animation:none;transform:none}
@@ -260,21 +297,28 @@ footer p{font-size:.85rem;color:var(--gris);max-width:44em}
   </section>
 
   <section class="anat" id="anatomie">
-    <div class="anat-stick">
-      <div class="wrap">
-        <div class="anat-intro">
-          <p class="eyebrow">Anatomie d'un entremets</p>
-          <h2>De bas en haut, couche par couche.</h2>
-          <p>Faites défiler : le Grenat se démonte dans l'ordre où il est monté, du sablé jusqu'au glaçage miroir.</p>
-          <div class="compteur"><b id="cNum">01</b><div>/ 06<span id="cNom">Sablé breton</span></div></div>
-        </div>
-        <div class="anat-scene" id="scene">
-          <div class="coupe" id="coupe" role="img" aria-label="Coupe de l'entremets Grenat : sablé breton, biscuit amande, croustillant praliné, insert framboise, mousse vanille, glaçage miroir"></div>
-          <div class="labels" id="labels"></div>
-          <p class="liste-mobile" id="lmob"></p>
+   <div class="anat-stick">
+    <div class="wrap anat-grille">
+      <div class="anat-intro">
+        <p class="eyebrow">Anatomie d'un entremets</p>
+        <h2>De bas en haut, couche par couche.</h2>
+        <p>Le Grenat s'ouvre sous vos yeux. Touchez une couche, ou utilisez les flèches, pour la découvrir.</p>
+        <div class="compteur"><b id="cNum">01</b><div>/ 06<span id="cNom">Sablé breton</span></div></div>
+      </div>
+      <div class="anat-scene" id="scene">
+        <div class="coupe" id="coupe" role="img" aria-label="Coupe de l'entremets Grenat : sablé breton, biscuit amande, croustillant praliné, insert framboise, mousse vanille, glaçage miroir"></div>
+        <div class="labels" id="labels"></div>
+        <div class="anat-nav">
+          <p class="liste-mobile" id="lmob" aria-live="polite"></p>
+          <div class="nav-couches">
+            <button type="button" class="fleche" id="cPrec" aria-label="Couche précédente">←</button>
+            <div class="points" id="points" role="tablist" aria-label="Choisir une couche"></div>
+            <button type="button" class="fleche" id="cSuiv" aria-label="Couche suivante">→</button>
+          </div>
         </div>
       </div>
     </div>
+   </div>
   </section>
 
   <section class="bloc" id="collection">
@@ -381,6 +425,19 @@ footer p{font-size:.85rem;color:var(--gris);max-width:44em}
   </section>
 </main>
 
+<div class="visio" id="visio" role="dialog" aria-modal="true" aria-labelledby="vNom" hidden>
+  <figure>
+    <div class="v-cadre" id="vCadre"><img id="vImg" src="img/hero.jpg" alt=""></div>
+    <figcaption>
+      <div><h3 id="vNom"></h3><p class="v-gout" id="vGout"></p><p class="v-prix">4 parts 32 € · 6 parts 46 € · 8 parts 60 €</p></div>
+      <button type="button" class="btn" id="vCmd">Commander</button>
+    </figcaption>
+  </figure>
+  <button type="button" class="v-nav v-prec" id="vPrec" aria-label="Entremets précédent">‹</button>
+  <button type="button" class="v-nav v-suiv" id="vSuiv" aria-label="Entremets suivant">›</button>
+  <button type="button" class="v-fermer" id="vFermer" aria-label="Fermer">×</button>
+</div>
+
 <footer>
   <div class="wrap">
     <span class="logo">Strate</span>
@@ -422,8 +479,9 @@ const DISQUES=[{"n": "sable", "x": 494.99, "y": 544.63, "w": 416, "h": 103, "ry"
 const FX=470, FY=-20, FW=470, FH=700; // cadre de la scène dans l'image d'origine
 const LG=couches(GRENAT);
 const coupe=document.getElementById('coupe');
-coupe.innerHTML='<span class="ombre" aria-hidden="true"></span>'+DISQUES.map((d,i)=>`<img class="disque" src="img/${d.n}.webp" alt="" draggable="false" style="left:${((d.x-FX)/FW*100).toFixed(3)}%;top:${((d.y-FY)/FH*100).toFixed(3)}%;width:${(d.w/FW*100).toFixed(3)}%;z-index:${i+1}">`).join('');
+coupe.innerHTML='<div class="coupe-in" id="coupeIn"><span class="ombre" aria-hidden="true"></span>'+DISQUES.map((d,i)=>`<img class="disque" src="img/${d.n}.webp" alt="" draggable="false" style="left:${((d.x-FX)/FW*100).toFixed(3)}%;top:${((d.y-FY)/FH*100).toFixed(3)}%;width:${(d.w/FW*100).toFixed(3)}%;z-index:${i+1}">`).join('')+'</div>';
 const disques=[...coupe.querySelectorAll('.disque')];
+const coupeIn=document.getElementById('coupeIn');
 const ombre=coupe.querySelector('.ombre');
 // décalages (px d'origine) pour reformer le gâteau : chaque disque repose sur celui du dessous
 const dyMonte=[0];
@@ -431,21 +489,18 @@ for(let i=1;i<6;i++){const bas=DISQUES[i-1], d=DISQUES[i], ryB=i===5?24:d.ry;
   dyMonte.push((bas.yt+bas.ry+dyMonte[i-1])-(d.yb-ryB)+7);} // +7 : les couches se touchent sans liseré
 const dyEclate=DISQUES.map((d,i)=>-i*9); // un peu plus d'écart que sur la photo
 const labelsEl=document.getElementById('labels');
-labelsEl.innerHTML=LG.map((c,i)=>`<div class="lbl" data-i="${i}"><h3><span class="n">0${i+1}</span>${NOMS_GRENAT[i]}</h3><p>${c.spec}</p></div>`).join('');
+labelsEl.innerHTML=LG.map((c,i)=>`<button type="button" class="lbl" data-i="${i}"><h3><span class="n">0${i+1}</span>${NOMS_GRENAT[i]}</h3><p>${c.spec}</p></button>`).join('');
 const lbls=[...labelsEl.children];
+const points=document.getElementById('points');
+points.innerHTML=NOMS_GRENAT.map((n,i)=>`<button type="button" role="tab" aria-label="${n}" aria-selected="false" data-i="${i}">0${i+1}</button>`).join('');
+const pts=[...points.children];
 const anat=document.getElementById('anatomie'), cNum=document.getElementById('cNum'), cNom=document.getElementById('cNom'), lmob=document.getElementById('lmob');
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let actif=-1, cible=0, cur=0, boucle=false, decal=0;
-function mesurer(){
-  decal=coupe.getBoundingClientRect().top-labelsEl.getBoundingClientRect().top;
-}
-function lireCible(){
-  const r=anat.getBoundingClientRect(), course=anat.offsetHeight-innerHeight;
-  cible=Math.max(0,Math.min(1,-r.top/course));
-}
+let actif=0, ouverture=0, decal=0, anim=false;
+function mesurer(){ decal=coupe.getBoundingClientRect().top-labelsEl.getBoundingClientRect().top; }
 function dessiner(){
-  const prog=cur, t=Math.min(1,prog/.42), sc=coupe.clientWidth/FW;
+  const t=ouverture, sc=coupe.clientWidth/FW;
   // ouverture en cascade : le glaçage se soulève d'abord
   const es=DISQUES.map((d,i)=>ease(Math.max(0,Math.min(1,t*1.6-(5-i)*.12))));
   let dy=es.map((e,i)=>dyMonte[i]*(1-e)+dyEclate[i]*e);
@@ -453,15 +508,10 @@ function dessiner(){
   dy=dy.map(v=>v-centre);
   disques.forEach((im,i)=>{im.style.transform=`translate3d(0,${(dy[i]*sc).toFixed(2)}px,0)`});
   ombre.style.transform=`translate3d(0,${(dy[0]*sc).toFixed(2)}px,0)`;
-  const ouvert=prog>=.42;
-  const a=ouvert?Math.min(5,Math.floor((prog-.42)/.5*6)):0;
-  if(a!==actif){
-    actif=a;
-    cNum.textContent='0'+(a+1); cNom.textContent=NOMS_GRENAT[a];
-    lmob.innerHTML=`<b>${NOMS_GRENAT[a]}</b><br>${LG[a].spec}`;
-    lbls.forEach((l,i)=>l.classList.toggle('on',i===a));
-  }
-  disques.forEach((im,i)=>im.classList.toggle('dim',ouvert&&i!==a));
+  // monté, le gâteau apparaît plus grand ; il reprend sa taille en s'ouvrant
+  coupeIn.style.transform=`scale(${(1+.32*(1-ease(Math.min(1,t/.75)))).toFixed(4)})`;
+  const ouvert=t>=1;
+  disques.forEach((im,i)=>im.classList.toggle('dim',ouvert&&i!==actif));
   const op=Math.max(0,Math.min(1,(t-.7)/.3)).toFixed(3);
   lbls.forEach((l,i)=>{
     const d=DISQUES[i], yc=(d.y+d.h*.55-FY+dy[i])*sc;
@@ -469,17 +519,54 @@ function dessiner(){
     l.style.opacity=op;
   });
 }
-function tour(){
-  cur+=(cible-cur)*(reduit?1:.14);
-  if(Math.abs(cible-cur)<.0004) cur=cible;
-  dessiner();
-  if(cur!==cible){requestAnimationFrame(tour)} else boucle=false;
+// le gâteau s'ouvre en 1,6 s
+function ouvrir(){
+  if(anim||ouverture>=1) return; anim=true; cibleO=1;
+  if(reduit){ouverture=1;dessiner();anim=false;return}
+  const t0=performance.now(), D=1600, depart=ouverture;
+  const pas=now=>{ouverture=Math.min(1,depart+(now-t0)/D*(1-depart)); dessiner(); if(ouverture<1) requestAnimationFrame(pas); else anim=false;};
+  requestAnimationFrame(pas);
 }
-function relancer(){lireCible(); if(!boucle){boucle=true;requestAnimationFrame(tour)}}
-addEventListener('scroll',relancer,{passive:true});
-addEventListener('resize',()=>{mesurer();relancer()});
-document.fonts && document.fonts.ready.then(()=>{mesurer();relancer()});
-mesurer(); lireCible(); cur=cible; dessiner();
+// choisir une couche (0 = sablé, 5 = glaçage)
+function choisir(i,init){
+  actif=(i+6)%6;
+  cNum.textContent='0'+(actif+1); cNom.textContent=NOMS_GRENAT[actif];
+  lmob.innerHTML=`<b>${NOMS_GRENAT[actif]}</b><br>${LG[actif].spec}`;
+  lbls.forEach((l,k)=>l.classList.toggle('on',k===actif));
+  pts.forEach((b,k)=>b.setAttribute('aria-selected',k===actif));
+  if(init) return dessiner();
+  if(ouverture<1) ouvrir(); else dessiner();
+}
+// il s'ouvre au fil du défilement, puis reste ouvert (il ne se referme jamais)
+let cibleO=0, suivi=false;
+function suivre(){
+  if(anim){suivi=false;return}
+  ouverture+=(cibleO-ouverture)*(reduit?1:.16);
+  if(Math.abs(cibleO-ouverture)<.002) ouverture=cibleO;
+  dessiner();
+  if(ouverture!==cibleO) requestAnimationFrame(suivre); else suivi=false;
+}
+function auDefilement(){
+  if(ouverture>=1){removeEventListener('scroll',auDefilement);return}
+  // l'écran reste fixe : la progression du défilement dans la section ouvre le gâteau
+  const r=anat.getBoundingClientRect(), course=anat.offsetHeight-innerHeight;
+  const p=Math.max(0,Math.min(1,(-r.top/course)/.8));
+  if(p>cibleO){cibleO=p; if(!suivi){suivi=true;requestAnimationFrame(suivre)}}
+}
+addEventListener('scroll',auDefilement,{passive:true});
+auDefilement();
+lbls.forEach((l,i)=>l.addEventListener('click',()=>choisir(i)));
+pts.forEach((b,i)=>b.addEventListener('click',()=>choisir(i)));
+disques.forEach((im,i)=>im.addEventListener('click',()=>choisir(i)));
+document.getElementById('cPrec').addEventListener('click',()=>choisir(actif-1));
+document.getElementById('cSuiv').addEventListener('click',()=>choisir(actif+1));
+// glisser le doigt sur le gâteau pour changer de couche
+let tx=null;
+coupe.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+coupe.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)choisir(actif+(dx<0?1:-1));tx=null});
+addEventListener('resize',()=>{mesurer();dessiner()});
+document.fonts && document.fonts.ready.then(()=>{mesurer();dessiner()});
+mesurer(); choisir(0,true);
 
 /* ===== Accueil : la part se détache ===== */
 (()=>{
@@ -497,7 +584,7 @@ mesurer(); lireCible(); cur=cible; dessiner();
 
 /* ===== Collection ===== */
 const grille=document.getElementById('grille');
-grille.innerHTML=ENTREMETS.map(e=>`<article class="carte">${e.signature?'<span class="signature">Signature</span>':''}<div class="ph"><img src="${e.photo}" width="1376" height="768" loading="lazy" alt="Entremets ${e.nom}, une part découpée"></div>
+grille.innerHTML=ENTREMETS.map(e=>`<article class="carte">${e.signature?'<span class="signature">Signature</span>':''}<div class="ph" role="button" tabindex="0" data-id="${e.id}" aria-label="Agrandir la photo du ${e.nom}"><img src="${e.photo}" width="1376" height="768" loading="lazy" alt="Entremets ${e.nom}, une part découpée"></div>
   <div class="ligne"><h3><span class="pastille" style="background:${e.glace}"></span>${e.nom}</h3><span class="prix">dès 32 €</span></div>
   <p class="gout">${e.gout}</p>
   <button type="button" data-id="${e.id}">Commander le ${e.nom}</button></article>`).join('');
@@ -506,6 +593,37 @@ grille.addEventListener('click',ev=>{
   fEnt.value=b.dataset.id; majRecap();
   document.getElementById('commander').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 });
+
+/* ===== Visionneuse : photo en grand ===== */
+(()=>{
+  const v=document.getElementById('visio'), img=document.getElementById('vImg'), cadre=document.getElementById('vCadre');
+  let i=0, avant=null;
+  const montrer=k=>{
+    i=(k+ENTREMETS.length)%ENTREMETS.length; const e=ENTREMETS[i];
+    cadre.classList.remove('zoom'); img.src=e.photo; img.alt=`Entremets ${e.nom}, une part découpée`;
+    document.getElementById('vNom').textContent=e.nom; document.getElementById('vGout').textContent=e.gout;
+    document.getElementById('vCmd').textContent=`Commander le ${e.nom}`;
+  };
+  const ouvrirV=id=>{avant=document.activeElement;montrer(ENTREMETS.findIndex(e=>e.id===id));v.hidden=false;document.documentElement.classList.add('bloque');document.getElementById('vFermer').focus()};
+  const fermer=()=>{v.hidden=true;document.documentElement.classList.remove('bloque');avant&&avant.focus()};
+  grille.addEventListener('click',ev=>{const ph=ev.target.closest('.ph');if(ph)ouvrirV(ph.dataset.id)});
+  grille.addEventListener('keydown',ev=>{const ph=ev.target.closest('.ph');if(ph&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();ouvrirV(ph.dataset.id)}});
+  document.getElementById('vFermer').addEventListener('click',fermer);
+  document.getElementById('vPrec').addEventListener('click',()=>montrer(i-1));
+  document.getElementById('vSuiv').addEventListener('click',()=>montrer(i+1));
+  v.addEventListener('click',ev=>{if(ev.target===v)fermer()});
+  document.getElementById('vCmd').addEventListener('click',()=>{fEnt.value=ENTREMETS[i].id;majRecap();fermer();document.getElementById('commander').scrollIntoView({behavior:'smooth'})});
+  // toucher ou cliquer sur la photo : zoom à l'endroit touché
+  img.addEventListener('click',ev=>{
+    if(cadre.classList.contains('zoom')){cadre.classList.remove('zoom');return}
+    const r=img.getBoundingClientRect(); img.style.transformOrigin=`${(ev.clientX-r.left)/r.width*100}% ${(ev.clientY-r.top)/r.height*100}%`;
+    cadre.classList.add('zoom');
+  });
+  addEventListener('keydown',ev=>{if(v.hidden)return;if(ev.key==='Escape')fermer();if(ev.key==='ArrowLeft')montrer(i-1);if(ev.key==='ArrowRight')montrer(i+1)});
+  let sx=null;
+  cadre.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  cadre.addEventListener('touchend',e=>{if(sx===null||cadre.classList.contains('zoom'))return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)montrer(i+(dx<0?1:-1));sx=null});
+})();
 
 /* ===== Chiffres animés ===== */
 (()=>{
