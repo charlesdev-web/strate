@@ -66,8 +66,19 @@ a{color:inherit}
 .hero-lead strong{color:var(--encre);font-weight:600}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px}
 .hero-art{position:relative;min-width:0}
-.hero-photo{width:100%;height:auto;aspect-ratio:1376/768;object-fit:cover;display:block;border-radius:3px;animation:revele 1.4s cubic-bezier(.2,.8,.2,1) both .2s}
-@keyframes revele{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.hero-scene{position:relative;aspect-ratio:1376/768;max-width:100%;overflow:hidden;cursor:pointer;
+  -webkit-mask-image:radial-gradient(ellipse 72% 78% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 78% at 50% 50%,#000 62%,transparent 100%)}
+.hero-scene img{position:absolute;display:block;max-width:none}
+.hs-base,.hs-entier,.hs-final{inset:0;width:100%;height:100%}
+.hs-final{opacity:0}
+/* la part : position finale mesurée sur la photo (px de l'image 1376 × 768) */
+.hs-part{left:67.95%;top:46.74%;width:26.31%;height:auto;transform-origin:30% 60%;filter:drop-shadow(0 14px 12px rgba(70,25,20,.18))}
+.hero-scene.go .hs-entier{animation:hsFondu .9s ease .45s both}
+.hero-scene.go .hs-part{animation:hsPart 1.5s cubic-bezier(.22,.8,.2,1) .3s both}
+.hero-scene.go .hs-final{animation:hsFin .45s ease 1.7s both}
+@keyframes hsFin{from{opacity:0}to{opacity:1}}
+@keyframes hsFondu{from{opacity:1}to{opacity:0}}
+@keyframes hsPart{from{transform:translate(-105%,-40%) rotate(-5deg)}to{transform:none}}
 .hero-tag{margin-top:14px;font-size:.9rem;color:var(--or-texte);text-align:right;line-height:1.6}
 .hero-tag b{display:block;font-family:var(--f-display);font-style:italic;font-weight:500;font-size:1.25rem;letter-spacing:0;color:var(--bordeaux)}
 @media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:520px;margin-inline:auto;width:100%}}
@@ -83,9 +94,10 @@ a{color:inherit}
 .compteur b{font-family:var(--f-display);font-weight:500;font-size:4.2rem;line-height:1;color:var(--bordeaux);font-variant-numeric:tabular-nums;min-width:1.25em}
 .compteur span{display:block;font-family:var(--f-display);font-style:italic;font-size:1.25rem;color:var(--encre)}
 .anat-scene{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:56px;align-items:start;min-width:0}
-.coupe{width:100%;max-width:min(520px, calc((100vh - 160px) * 1.2 / 1.45));margin-inline:auto;padding-block:22%}
-.band{display:block;width:100%;background-image:url(img/coupe.jpg);background-size:100% auto;background-repeat:no-repeat;will-change:transform;backface-visibility:hidden;transition:filter .6s ease,opacity .6s ease}
-.coupe.ouvert .band.dim{filter:saturate(.6) brightness(1.04);opacity:.55}
+.coupe{position:relative;width:100%;max-width:min(470px, calc((100vh - 130px) * .67));margin-inline:auto;aspect-ratio:470/700}
+.disque{position:absolute;display:block;height:auto;max-width:none;will-change:transform,opacity;transition:opacity .6s ease;user-select:none;-webkit-user-drag:none}
+.disque.dim{opacity:.28}
+.ombre{position:absolute;left:10%;right:10%;top:90%;height:7%;will-change:transform;border-radius:50%;background:radial-gradient(closest-side,rgba(60,30,20,.28),rgba(60,30,20,0))}
 .lbl::before{content:"";position:absolute;right:calc(100% + 8px);top:.75em;width:28px;height:1px;background:var(--or)}
 .lbl::after{content:"";position:absolute;right:calc(100% + 34px);top:calc(.75em - 2px);width:5px;height:5px;border-radius:50%;background:var(--or)}
 .labels{position:relative;height:100%}
@@ -104,7 +116,7 @@ a{color:inherit}
   .anat-intro h2{font-size:1.6rem}
   .compteur{margin-top:0}.compteur b{font-size:2.6rem}.compteur span{display:none}
   .anat-scene{grid-template-columns:1fr}
-  .coupe{max-width:min(360px, 40vh);padding-block:20%}
+  .coupe{max-width:min(320px, calc((100vh - 310px) * .67))}
   .labels{display:none}
   .liste-mobile b{font-family:var(--f-display);font-weight:400;font-style:italic;font-size:1.3rem;color:var(--bordeaux)}
   .liste-mobile{display:block;font-size:.9rem;color:var(--gris);text-align:center;min-height:2.6em}
@@ -199,8 +211,11 @@ footer p{font-size:.85rem;color:var(--gris);max-width:44em}
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  .strata,.hero-photo{animation:none;transform:none}
-  .band{transition:none}
+  .strata{animation:none;transform:none}
+  .hero-scene .hs-entier,.hero-scene .hs-part,.hero-scene .hs-final{animation:none!important}
+  .hero-scene .hs-entier{opacity:0}
+  .hero-scene .hs-final{opacity:1}
+  .disque{transition:none}
   .carte svg .ly,.lbl,.trace li{transition:none}
 }
 </style>
@@ -233,7 +248,12 @@ footer p{font-size:.85rem;color:var(--gris);max-width:44em}
         </div>
       </div>
       <div class="hero-art">
-        <img class="hero-photo" src="img/hero.jpg" width="1376" height="768" alt="Entremets Grenat au glaçage miroir bordeaux, une part découpée, décoré de framboises et de feuille d'or">
+        <div class="hero-scene" id="heroScene" role="img" aria-label="Entremets Grenat au glaçage miroir bordeaux : une part se détache et révèle ses couches">
+          <img class="hs-base" src="img/gateau-entaille.jpg" width="1376" height="768" alt="">
+          <img class="hs-part" src="img/part.webp" alt="">
+          <img class="hs-entier" src="img/gateau-entier.jpg" width="1376" height="768" alt="">
+          <img class="hs-final" src="img/gateau-part.jpg" width="1376" height="768" alt="">
+        </div>
         <p class="hero-tag"><b>Grenat</b>framboise · vanille · sablé breton</p>
       </div>
     </div>
@@ -395,78 +415,85 @@ function couches(e){
 const NOMS_GRENAT=['Sablé breton','Biscuit amande','Croustillant praliné','Insert framboise','Mousse vanille','Glaçage miroir'];
 
 /* ===== Anatomie au défilement =====
-   Une seule photo de coupe, découpée en 6 bandes (limites mesurées sur l'image, en px, hauteur totale 404, largeur 485). */
+   Vue éclatée : 6 disques détourés d'une même photo (coordonnées en px de l'image d'origine).
+   Au défilement, le gâteau monté s'ouvre en cascade, puis chaque couche s'éclaire, de bas en haut. */
 const GRENAT=ENTREMETS[0];
-const IMG_W=485, IMG_H=404;
-const BANDES=[[343,404],[248,343],[191,248],[146,191],[64,146],[0,64]]; // de bas (sablé) en haut (glaçage)
+const DISQUES=[{"n": "sable", "x": 494.99, "y": 544.63, "w": 416, "h": 103, "ry": 32.13, "yt": 547.65, "yb": 643.35}, {"n": "biscuit", "x": 494.98, "y": 446.37, "w": 416, "h": 105, "ry": 24.19, "yt": 449.4, "yb": 547.6}, {"n": "croustillant", "x": 494.99, "y": 380.83, "w": 416, "h": 72, "ry": 21.4, "yt": 383.84, "yb": 449.16}, {"n": "insert", "x": 494.98, "y": 294.6, "w": 416, "h": 84, "ry": 18.78, "yt": 297.63, "yb": 374.37}, {"n": "mousse", "x": 494.99, "y": 191.76, "w": 416, "h": 101, "ry": 25.83, "yt": 194.77, "yb": 289.23}, {"n": "glacage", "x": 494.49, "y": 46.8, "w": 417, "h": 144, "ry": 39.1, "yt": 74.86, "yb": 187.14}]; // du sablé (bas) au glaçage (haut)
+const FX=470, FY=-20, FW=470, FH=700; // cadre de la scène dans l'image d'origine
 const LG=couches(GRENAT);
 const coupe=document.getElementById('coupe');
-coupe.innerHTML=BANDES.slice().reverse().map(([t,b],j)=>{
-  const h=b-t, pos=IMG_H-h?(t/(IMG_H-h)*100):0;
-  return `<span class="band" data-i="${5-j}" style="padding-top:${(h/IMG_W*100).toFixed(3)}%;background-position:0 ${pos.toFixed(3)}%"></span>`;
-}).join('');
-const bands=[...coupe.children].reverse(); // bands[0] = sablé
+coupe.innerHTML='<span class="ombre" aria-hidden="true"></span>'+DISQUES.map((d,i)=>`<img class="disque" src="img/${d.n}.webp" alt="" draggable="false" style="left:${((d.x-FX)/FW*100).toFixed(3)}%;top:${((d.y-FY)/FH*100).toFixed(3)}%;width:${(d.w/FW*100).toFixed(3)}%;z-index:${i+1}">`).join('');
+const disques=[...coupe.querySelectorAll('.disque')];
+const ombre=coupe.querySelector('.ombre');
+// décalages (px d'origine) pour reformer le gâteau : chaque disque repose sur celui du dessous
+const dyMonte=[0];
+for(let i=1;i<6;i++){const bas=DISQUES[i-1], d=DISQUES[i], ryB=i===5?24:d.ry;
+  dyMonte.push((bas.yt+bas.ry+dyMonte[i-1])-(d.yb-ryB)+7);} // +7 : les couches se touchent sans liseré
+const dyEclate=DISQUES.map((d,i)=>-i*9); // un peu plus d'écart que sur la photo
 const labelsEl=document.getElementById('labels');
 labelsEl.innerHTML=LG.map((c,i)=>`<div class="lbl" data-i="${i}"><h3><span class="n">0${i+1}</span>${NOMS_GRENAT[i]}</h3><p>${c.spec}</p></div>`).join('');
 const lbls=[...labelsEl.children];
 const anat=document.getElementById('anatomie'), cNum=document.getElementById('cNum'), cNom=document.getElementById('cNom'), lmob=document.getElementById('lmob');
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-let actif=-1;
-/* Lissage : la position suit le défilement avec inertie (interpolation à chaque image),
-   et le décalage latéral de la couche active glisse au lieu de sauter. */
 const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let cible=0, cur=0, dxs=[0,0,0,0,0,0], bases=[], boucle=false;
+let actif=-1, cible=0, cur=0, boucle=false, decal=0;
 function mesurer(){
-  // centre de chaque bande, au repos, par rapport au haut de la colonne d'étiquettes
-  const cr=coupe.getBoundingClientRect(), lr=labelsEl.getBoundingClientRect();
-  let y=parseFloat(getComputedStyle(coupe).paddingTop);
-  const hs=[...coupe.children].map(b=>b.offsetHeight); // de haut en bas
-  const centresHautBas=hs.map(h=>{const c=y+h/2;y+=h;return c});
-  bases=centresHautBas.reverse().map(c=>c+(cr.top-lr.top));
+  decal=coupe.getBoundingClientRect().top-labelsEl.getBoundingClientRect().top;
 }
 function lireCible(){
   const r=anat.getBoundingClientRect(), course=anat.offsetHeight-innerHeight;
   cible=Math.max(0,Math.min(1,-r.top/course));
 }
 function dessiner(){
-  const prog=cur, t=Math.min(1,prog/.42), p=ease(t), gap=coupe.clientWidth*.085;
-  // ouverture en cascade : le glaçage se soulève d'abord, puis chaque couche suit
-  const ps=bands.map((b,i)=>ease(Math.max(0,Math.min(1,t*1.6-(5-i)*.12))));
-  // pendant l'ouverture on reste sur 01, puis une couche à la fois, de bas en haut
-  const a=prog<.42?0:Math.min(5,Math.floor((prog-.42)/.5*6));
-  let enMouvement=false;
-  bands.forEach((b,i)=>{
-    const vise=0;
-    dxs[i]+= (vise-dxs[i])*(reduit?1:.18);
-    if(Math.abs(vise-dxs[i])>.05) enMouvement=true;
-    b.style.transform=`translate3d(${dxs[i].toFixed(2)}px, ${(-ps[i]*gap*(i-2.5)).toFixed(2)}px, 0)`;
-  });
+  const prog=cur, t=Math.min(1,prog/.42), sc=coupe.clientWidth/FW;
+  // ouverture en cascade : le glaçage se soulève d'abord
+  const es=DISQUES.map((d,i)=>ease(Math.max(0,Math.min(1,t*1.6-(5-i)*.12))));
+  let dy=es.map((e,i)=>dyMonte[i]*(1-e)+dyEclate[i]*e);
+  const centre=(dy[0]+dy[5])/2-(dyEclate[0]+dyEclate[5])/2;
+  dy=dy.map(v=>v-centre);
+  disques.forEach((im,i)=>{im.style.transform=`translate3d(0,${(dy[i]*sc).toFixed(2)}px,0)`});
+  ombre.style.transform=`translate3d(0,${(dy[0]*sc).toFixed(2)}px,0)`;
+  const ouvert=prog>=.42;
+  const a=ouvert?Math.min(5,Math.floor((prog-.42)/.5*6)):0;
   if(a!==actif){
     actif=a;
-    bands.forEach((b,i)=>{b.classList.toggle('dim',i!==a);b.classList.toggle('on',i===a)});
     cNum.textContent='0'+(a+1); cNom.textContent=NOMS_GRENAT[a];
     lmob.innerHTML=`<b>${NOMS_GRENAT[a]}</b><br>${LG[a].spec}`;
     lbls.forEach((l,i)=>l.classList.toggle('on',i===a));
   }
-  coupe.classList.toggle('ouvert',prog>=.42);
-  const op=Math.max(0,Math.min(1,(p-.55)/.3)).toFixed(3);
+  disques.forEach((im,i)=>im.classList.toggle('dim',ouvert&&i!==a));
+  const op=Math.max(0,Math.min(1,(t-.7)/.3)).toFixed(3);
   lbls.forEach((l,i)=>{
-    l.style.transform=`translate3d(0, ${((bases[i]||0)-ps[i]*gap*(i-2.5)-12).toFixed(2)}px, 0)`;
+    const d=DISQUES[i], yc=(d.y+d.h*.55-FY+dy[i])*sc;
+    l.style.transform=`translate3d(0,${(decal+yc-14).toFixed(2)}px,0)`;
     l.style.opacity=op;
   });
-  return enMouvement;
 }
 function tour(){
-  cur+= (cible-cur)*(reduit?1:.14);
+  cur+=(cible-cur)*(reduit?1:.14);
   if(Math.abs(cible-cur)<.0004) cur=cible;
-  const bouge=dessiner();
-  if(cur!==cible||bouge){requestAnimationFrame(tour)} else boucle=false;
+  dessiner();
+  if(cur!==cible){requestAnimationFrame(tour)} else boucle=false;
 }
 function relancer(){lireCible(); if(!boucle){boucle=true;requestAnimationFrame(tour)}}
 addEventListener('scroll',relancer,{passive:true});
 addEventListener('resize',()=>{mesurer();relancer()});
 document.fonts && document.fonts.ready.then(()=>{mesurer();relancer()});
 mesurer(); lireCible(); cur=cible; dessiner();
+
+/* ===== Accueil : la part se détache ===== */
+(()=>{
+  const sc=document.getElementById('heroScene');
+  const jouer=()=>{sc.classList.remove('go');void sc.offsetWidth;sc.classList.add('go')};
+  const imgs=[...sc.querySelectorAll('img')];
+  const pret=Promise.all(imgs.map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r})));
+  // l'animation part quand le gâteau est bien visible à l'écran (important sur téléphone)
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();pret.then(()=>setTimeout(jouer,250))}},{threshold:.6});
+    io.observe(sc);
+  } else pret.then(jouer);
+  sc.addEventListener('click',jouer);
+})();
 
 /* ===== Collection ===== */
 const grille=document.getElementById('grille');
