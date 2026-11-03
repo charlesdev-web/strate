@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Strate</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+/* Layout : une coupe verticale — le site se lit de haut en bas comme un entremets se monte de bas en haut.
+   Look unique, clair, assumé (pas de thème sombre) : crème rosée, bordeaux, or. */
+:root{
+  --creme:#F6EFEA;      /* fond */
+  --creme-2:#EFE4DC;    /* surfaces */
+  --bordeaux:#5C1425;   /* couleur de marque */
+  --bordeaux-2:#7A1E33;
+  --or:#B08A45;         /* filets, décor */
+  --or-texte:#8A6A2C;   /* or lisible sur crème */
+  --encre:#2B1117;      /* texte */
+  --gris:#6E5458;       /* texte secondaire */
+  --filet:rgba(92,20,37,.16);
+
+  --f-display:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --f-texte:"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --gut-l:max(20px, env(safe-area-inset-left, 0px));
+  --gut-r:max(20px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+body{margin:0}img{max-width:100%}
+html{scroll-behavior:smooth}
+body{background:var(--creme);color:var(--encre);font-family:var(--f-texte);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-synthesis:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--creme)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:1.02}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:1200px;margin-inline:auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.eyebrow{font-family:var(--f-texte);font-weight:600;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or-texte)}
+.btn{display:inline-flex;align-items:center;gap:.6em;font:600 .95rem/1 var(--f-texte);padding:1em 1.5em;border-radius:999px;border:1px solid var(--bordeaux);background:var(--bordeaux);color:var(--creme);text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}
+.btn:hover{background:var(--bordeaux-2)}
+.btn.ghost{background:transparent;color:var(--bordeaux)}
+.btn.ghost:hover{background:var(--bordeaux);color:var(--creme)}
+:focus-visible{outline:2px solid var(--or);outline-offset:3px}
+
+/* ---------- Navigation ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb, var(--creme) 88%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--filet)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.logo{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:1.65rem;color:var(--bordeaux);text-decoration:none;letter-spacing:-.01em}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;font-size:.92rem;color:var(--encre);opacity:.8}
+.nav ul a:hover{opacity:1;color:var(--bordeaux)}
+.nav .btn{padding:.75em 1.2em;font-size:.88rem}
+@media (max-width:760px){.nav ul{display:none}}
+
+/* ---------- Accueil ---------- */
+.hero{padding-block:56px 40px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:32px}
+.hero-txt{display:flex;flex-direction:column;gap:26px;min-width:0}
+.strata{font-family:var(--f-display);font-style:italic;font-weight:400;font-size:clamp(4.6rem,15vw,12rem);line-height:.95;letter-spacing:-.02em;color:var(--bordeaux);margin-left:-.03em;animation:monte 1.1s cubic-bezier(.2,.8,.2,1) both .1s}
+@keyframes monte{from{transform:translateY(.12em);opacity:.25}to{transform:none;opacity:1}}
+.hero-lead{font-size:clamp(1.05rem,1.6vw,1.2rem);max-width:30em;color:var(--gris)}
+.hero-lead strong{color:var(--encre);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-art{position:relative;min-width:0}
+.hero-photo{width:100%;height:auto;aspect-ratio:1376/768;object-fit:cover;display:block;border-radius:3px;animation:revele 1.4s cubic-bezier(.2,.8,.2,1) both .2s}
+@keyframes revele{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.hero-tag{margin-top:14px;font-size:.9rem;color:var(--or-texte);text-align:right;line-height:1.6}
+.hero-tag b{display:block;font-family:var(--f-display);font-style:italic;font-weight:500;font-size:1.25rem;letter-spacing:0;color:var(--bordeaux)}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:520px;margin-inline:auto;width:100%}}
+
+/* ---------- Anatomie ---------- */
+.anat{position:relative;height:340vh;border-top:1px solid var(--filet)}
+.anat-stick{position:sticky;top:68px;height:calc(100vh - 68px);display:flex;align-items:center;overflow:hidden}
+.anat-stick .wrap{width:100%;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:40px;align-items:center}
+.anat-intro{display:flex;flex-direction:column;gap:18px}
+.anat-intro h2{font-size:clamp(2.2rem,4vw,3.4rem)}
+.anat-intro p{color:var(--gris);max-width:28em}
+.compteur{font-family:var(--f-mono);font-size:.85rem;color:var(--gris);display:flex;align-items:baseline;gap:10px;margin-top:8px}
+.compteur b{font-family:var(--f-display);font-weight:500;font-size:4.2rem;line-height:1;color:var(--bordeaux);font-variant-numeric:tabular-nums;min-width:1.25em}
+.compteur span{display:block;font-family:var(--f-display);font-style:italic;font-size:1.25rem;color:var(--encre)}
+.anat-scene{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);column-gap:56px;align-items:start;min-width:0}
+.coupe{width:100%;max-width:min(520px, calc((100vh - 160px) * 1.2 / 1.45));margin-inline:auto;padding-block:22%}
+.band{display:block;width:100%;background-image:url(img/coupe.jpg);background-size:100% auto;background-repeat:no-repeat;will-change:transform;backface-visibility:hidden;transition:filter .6s ease,opacity .6s ease}
+.coupe.ouvert .band.dim{filter:saturate(.6) brightness(1.04);opacity:.55}
+.lbl::before{content:"";position:absolute;right:calc(100% + 8px);top:.75em;width:28px;height:1px;background:var(--or)}
+.lbl::after{content:"";position:absolute;right:calc(100% + 34px);top:calc(.75em - 2px);width:5px;height:5px;border-radius:50%;background:var(--or)}
+.labels{position:relative;height:100%}
+.lbl{position:absolute;left:0;right:0;top:0;opacity:0;will-change:transform,opacity}
+.lbl h3{font-size:1.25rem;font-style:italic;color:var(--gris);transition:color .3s}
+.lbl p{font-family:var(--f-texte);font-size:.85rem;color:var(--gris);margin-top:2px}
+.lbl.on h3{color:var(--bordeaux)}
+.lbl.on p{color:var(--encre)}
+.lbl .n{font-family:var(--f-mono);font-size:.7rem;color:var(--or-texte);margin-right:6px;font-style:normal}
+.liste-mobile{display:none}
+@media (max-width:860px){
+  .anat{height:300vh}
+  .anat-stick .wrap{grid-template-columns:1fr;gap:10px}
+  .anat-intro p,.anat-intro .eyebrow{display:none}
+  .anat-intro h2{font-size:1.6rem}
+  .compteur{margin-top:0}.compteur b{font-size:2.6rem}.compteur span{display:none}
+  .anat-scene{grid-template-columns:1fr}
+  .coupe{max-width:min(360px, 40vh);padding-block:20%}
+  .labels{display:none}
+  .liste-mobile b{font-family:var(--f-display);font-weight:400;font-style:italic;font-size:1.3rem;color:var(--bordeaux)}
+  .liste-mobile{display:block;font-size:.9rem;color:var(--gris);text-align:center;min-height:2.6em}
+}
+
+/* ---------- Collection ---------- */
+section.bloc{padding-block:110px}
+.bloc-tete{display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap;margin-bottom:48px}
+.bloc-tete h2{font-size:clamp(2.4rem,5vw,4rem)}
+.bloc-tete p{max-width:28em;color:var(--gris)}
+.grille{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:980px){.grille{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.grille{grid-template-columns:1fr}}
+.carte{background:var(--creme-2);border-radius:4px;padding:20px 22px 24px;overflow:hidden;display:flex;flex-direction:column;gap:6px;position:relative}
+.carte .ph{overflow:hidden;border-radius:2px;margin:-20px -22px 10px;aspect-ratio:4/3}
+.carte .ph img{width:100%;height:100%;object-fit:cover;object-position:58% 62%;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.carte:hover .ph img,.carte:focus-within .ph img{transform:scale(1.07)}
+.carte .ligne{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.carte h3{font-size:1.9rem;font-style:italic}
+.carte .prix{font-size:.95rem;color:var(--gris);white-space:nowrap}
+.carte .gout{color:var(--gris);font-size:.95rem}
+.carte .pastille{width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.carte button{margin-top:12px;align-self:flex-start;background:none;border:0;border-bottom:1px solid var(--bordeaux);padding:2px 0;font:600 .9rem var(--f-texte);color:var(--bordeaux);cursor:pointer}
+.carte button:hover{color:var(--bordeaux-2)}
+.signature{position:absolute;z-index:1;top:14px;left:14px;background:var(--creme);padding:.35em .8em;border-radius:999px;font-weight:600;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or-texte)}
+
+/* ---------- Atelier ---------- */
+.atelier{background:var(--bordeaux);color:var(--creme)}
+.atelier .eyebrow{color:#D9B977}
+.atelier .bloc-tete p{color:rgba(246,239,234,.75)}
+.etapes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid rgba(246,239,234,.25)}
+.etapes li{padding:22px 22px 0 0;display:flex;flex-direction:column;gap:10px;position:relative}
+.etapes li::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:#D9B977}
+.etapes .j{font-weight:600;font-size:.8rem;letter-spacing:.1em;color:#D9B977}
+.etapes h3{font-size:1.45rem;font-style:italic}
+.etapes p{color:rgba(246,239,234,.78);font-size:.95rem}
+@media (max-width:900px){.etapes{grid-template-columns:1fr 1fr;row-gap:36px}}
+@media (max-width:540px){.etapes{grid-template-columns:1fr}}
+.chiffres{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:80px}
+.chiffres div{border-left:1px solid rgba(246,239,234,.25);padding-left:18px}
+.chiffres b{display:block;font-family:var(--f-display);font-weight:500;font-size:clamp(2.6rem,5vw,4rem);line-height:1;font-variant-numeric:tabular-nums}
+.chiffres span{font-size:.9rem;color:rgba(246,239,234,.75)}
+@media (max-width:760px){.chiffres{grid-template-columns:1fr 1fr;row-gap:32px}}
+
+/* ---------- Commande ---------- */
+.cmd{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:start}
+@media (max-width:900px){.cmd{grid-template-columns:1fr}}
+form{display:grid;grid-template-columns:1fr 1fr;gap:22px 20px}
+.champ{display:flex;flex-direction:column;gap:8px;min-width:0}
+.champ.large{grid-column:1/-1}
+@media (max-width:560px){form{grid-template-columns:1fr}}
+label,.legende{font-family:var(--f-texte);font-weight:600;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+input,select{font:500 1rem var(--f-texte);color:var(--encre);background:transparent;border:0;border-bottom:1px solid rgba(92,20,37,.35);padding:10px 0;border-radius:0;width:100%;min-width:0}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--bordeaux) 50%),linear-gradient(135deg,var(--bordeaux) 50%,transparent 50%);background-position:calc(100% - 10px) 52%,calc(100% - 5px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:24px}
+input:focus,select:focus{outline:none;border-bottom-color:var(--bordeaux);box-shadow:0 1px 0 var(--bordeaux)}
+.tailles{display:flex;gap:10px;flex-wrap:wrap}
+.tailles input{position:absolute;opacity:0;width:1px;height:1px}
+.tailles label{cursor:pointer;text-transform:none;letter-spacing:0;font:500 .95rem var(--f-texte);color:var(--encre);border:1px solid rgba(92,20,37,.3);border-radius:999px;padding:.6em 1.1em;transition:all .2s}
+.tailles label small{font-family:var(--f-mono);color:var(--gris);margin-left:6px}
+.tailles input:checked + label{background:var(--bordeaux);color:var(--creme);border-color:var(--bordeaux)}
+.tailles input:checked + label small{color:rgba(246,239,234,.75)}
+.tailles input:focus-visible + label{outline:2px solid var(--or);outline-offset:2px}
+.aide{font-size:.82rem;color:var(--gris)}
+.erreur{font-size:.85rem;color:#A3182F;min-height:1.2em}
+.recap{position:sticky;top:96px;background:var(--creme-2);border-radius:4px;padding:26px;overflow:hidden;display:flex;flex-direction:column;gap:14px}
+.recap .ph{position:relative;margin:-26px -26px 4px;aspect-ratio:16/10;overflow:hidden;border-radius:4px 4px 0 0}
+.recap .ph img{width:100%;height:100%;object-fit:cover;object-position:55% 60%;display:block}
+.plaque{position:absolute;left:42%;top:30%;transform:translateX(-50%) rotate(-5deg);background:#3A1A12;color:#E9CF92;font-family:var(--f-display);font-style:italic;font-size:.85rem;padding:.4em 1em;border-radius:999px;box-shadow:0 6px 14px -6px rgba(0,0,0,.5);white-space:nowrap;max-width:80%;overflow:hidden;text-overflow:ellipsis}
+.recap .ligne{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;border-bottom:1px solid var(--filet);padding-bottom:10px}
+.recap .ligne span:first-child{color:var(--gris)}
+.recap .ligne span:last-child{text-align:right}
+.total{display:flex;justify-content:space-between;align-items:baseline}
+.total b{font-family:var(--f-display);font-size:2.4rem;font-weight:500;color:var(--bordeaux);font-variant-numeric:tabular-nums}
+.recap h3{font-size:1.7rem;font-style:italic}
+.trace{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.trace li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:.93rem;opacity:.25;transition:opacity .5s}
+.trace li.ok{opacity:1}
+.trace li i{width:22px;height:22px;border-radius:50%;border:1px solid var(--bordeaux);display:grid;place-items:center;font-style:normal;font-size:.75rem;color:var(--creme)}
+.trace li.ok i{background:var(--bordeaux)}
+.trace small{display:block;font-size:.8rem;color:var(--gris)}
+.statut{display:inline-block;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;padding:.35em .8em;border-radius:999px;background:#F3DFB4;color:#6B4A12}
+.demo{font-size:.8rem;color:var(--gris);border-top:1px solid var(--filet);padding-top:12px}
+
+/* ---------- Infos / pied ---------- */
+.infos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-top:1px solid var(--filet);padding-top:36px}
+.infos h3{font-size:1.35rem;font-style:italic;margin-bottom:8px;color:var(--bordeaux)}
+.infos p{color:var(--gris)}
+@media (max-width:760px){.infos{grid-template-columns:1fr}}
+footer{padding-block:40px 48px;border-top:1px solid var(--filet);margin-top:90px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline}
+footer p{font-size:.85rem;color:var(--gris);max-width:44em}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .strata,.hero-photo{animation:none;transform:none}
+  .band{transition:none}
+  .carte svg .ly,.lbl,.trace li{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#accueil">Strate</a>
+    <ul>
+      <li><a href="#anatomie">Anatomie</a></li>
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#atelier">Atelier</a></li>
+      <li><a href="#infos">Infos</a></li>
+    </ul>
+    <a class="btn" href="#commander">Commander</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="accueil">
+    <div class="wrap">
+      <div class="hero-txt">
+        <p class="eyebrow">Maison d'entremets · sur commande</p>
+        <h1 class="strata" id="strata">Strate</h1>
+        <p class="hero-lead"><strong>Six couches, montées à la main en 48 heures.</strong> Des entremets glacés miroir, à commander en ligne et à retirer en boutique.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#commander">Commander un entremets</a>
+          <a class="btn ghost" href="#anatomie">Voir les couches</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img class="hero-photo" src="img/hero.jpg" width="1376" height="768" alt="Entremets Grenat au glaçage miroir bordeaux, une part découpée, décoré de framboises et de feuille d'or">
+        <p class="hero-tag"><b>Grenat</b>framboise · vanille · sablé breton</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="anat" id="anatomie">
+    <div class="anat-stick">
+      <div class="wrap">
+        <div class="anat-intro">
+          <p class="eyebrow">Anatomie d'un entremets</p>
+          <h2>De bas en haut, couche par couche.</h2>
+          <p>Faites défiler : le Grenat se démonte dans l'ordre où il est monté, du sablé jusqu'au glaçage miroir.</p>
+          <div class="compteur"><b id="cNum">01</b><div>/ 06<span id="cNom">Sablé breton</span></div></div>
+        </div>
+        <div class="anat-scene" id="scene">
+          <div class="coupe" id="coupe" role="img" aria-label="Coupe de l'entremets Grenat : sablé breton, biscuit amande, croustillant praliné, insert framboise, mousse vanille, glaçage miroir"></div>
+          <div class="labels" id="labels"></div>
+          <p class="liste-mobile" id="lmob"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="collection">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <p class="eyebrow">La collection</p>
+          <h2>Six entremets,<br>six glaçages.</h2>
+        </div>
+        <p>La même architecture en six couches, déclinée selon la saison. Chaque création repose sur la même base : sablé breton, biscuit amande et croustillant praliné.</p>
+      </div>
+      <div class="grille" id="grille"></div>
+    </div>
+  </section>
+
+  <section class="bloc atelier" id="atelier">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <p class="eyebrow">L'atelier</p>
+          <h2>48 heures<br>pour six couches.</h2>
+        </div>
+        <p>Chaque entremets est monté à l'envers, dans un cercle, puis surgelé avant d'être glacé. C'est pour ça qu'on vous demande de commander trois jours à l'avance.</p>
+      </div>
+      <ol class="etapes">
+        <li><span class="j">J-2 · MATIN</span><h3>Sablé et biscuit</h3><p>Le sablé breton cuit 14 min à 170 °C. Le biscuit amande est imbibé de sirop vanille.</p></li>
+        <li><span class="j">J-2 · APRÈS-MIDI</span><h3>Croustillant et insert</h3><p>Le praliné est mêlé à la feuilletine. L'insert fruité est coulé puis surgelé à −18 °C.</p></li>
+        <li><span class="j">J-1</span><h3>Montage</h3><p>La mousse est coulée dans le cercle, l'insert posé au centre, le tout fermé par le sablé.</p></li>
+        <li><span class="j">JOUR J</span><h3>Glaçage miroir</h3><p>Le glaçage est coulé à 35 °C sur l'entremets encore gelé, puis décoré à la feuille d'or.</p></li>
+      </ol>
+      <div class="chiffres" id="chiffres">
+        <div><b data-to="6">6</b><span>couches par entremets</span></div>
+        <div><b data-to="48" data-suf=" h">48 h</b><span>de préparation</span></div>
+        <div><b data-to="35" data-suf=" °C">35 °C</b><span>pour couler le glaçage</span></div>
+        <div><b data-to="72" data-suf=" h">72 h</b><span>de délai de commande</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="commander">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <p class="eyebrow">Commander</p>
+          <h2>Votre entremets,<br>prêt à retirer.</h2>
+        </div>
+        <p>Choisissez la création, la taille et le jour de retrait. Vous recevez un récapitulatif par e-mail, puis un rappel la veille.</p>
+      </div>
+      <div class="cmd">
+        <form id="form" novalidate>
+          <div class="champ large">
+            <label for="f-entremets">Entremets</label>
+            <select id="f-entremets"></select>
+          </div>
+          <div class="champ large">
+            <span class="legende" id="lg-taille">Taille</span>
+            <div class="tailles" role="radiogroup" aria-labelledby="lg-taille">
+              <input type="radio" name="taille" id="t4" value="4"><label for="t4">4 parts<small>32 €</small></label>
+              <input type="radio" name="taille" id="t6" value="6" checked><label for="t6">6 parts<small>46 €</small></label>
+              <input type="radio" name="taille" id="t8" value="8"><label for="t8">8 parts<small>60 €</small></label>
+            </div>
+          </div>
+          <div class="champ">
+            <label for="f-date">Jour de retrait</label>
+            <input type="date" id="f-date" required>
+            <span class="aide">Du mercredi au dimanche, 72 h minimum.</span>
+          </div>
+          <div class="champ">
+            <label for="f-plaque">Message sur la plaque</label>
+            <input type="text" id="f-plaque" maxlength="24" placeholder="Joyeux anniversaire Léa">
+            <span class="aide">Facultatif · 24 caractères · +3 €</span>
+          </div>
+          <div class="champ">
+            <label for="f-nom">Nom</label>
+            <input type="text" id="f-nom" autocomplete="name" placeholder="Camille Le Goff" required>
+          </div>
+          <div class="champ">
+            <label for="f-tel">Téléphone</label>
+            <input type="tel" id="f-tel" autocomplete="tel" placeholder="06 12 34 56 78">
+          </div>
+          <div class="champ large">
+            <label for="f-mail">E-mail</label>
+            <input type="email" id="f-mail" autocomplete="email" placeholder="camille@exemple.fr" required>
+          </div>
+          <div class="champ large">
+            <p class="erreur" id="err" role="alert"></p>
+            <button class="btn" type="submit" style="align-self:flex-start">Envoyer la commande</button>
+          </div>
+        </form>
+
+        <aside class="recap" id="recap" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="infos" style="padding-top:0">
+    <div class="wrap">
+      <div class="infos">
+        <div><h3>Boutique de retrait</h3><p>Atelier Strate<br>Adresse communiquée à la confirmation</p></div>
+        <div><h3>Horaires</h3><p>Mercredi au dimanche, 10 h – 19 h<br>Fermé lundi et mardi</p></div>
+        <div><h3>Commandes</h3><p>72 h à l'avance minimum<br>De 4 à 8 parts, plaque personnalisée possible</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo">Strate</span>
+    <p>Projet concept : la marque, les créations et la boutique sont fictives, les photos sont générées par IA. Site vitrine avec animation au défilement et prise de commande automatisée (Make + Airtable).</p>
+  </div>
+</footer>
+
+<script>
+
+/* ===== Les créations ===== */
+const ENTREMETS=[
+  {id:'grenat', photo:'img/hero.jpg', nom:'Grenat', gout:'Framboise, vanille Bourbon, sablé breton', insert:'#B0243C', mousse:'#F1E2CF', glace:'#6E0F22', signature:true},
+  {id:'onyx', photo:'img/onyx.jpg',   nom:'Onyx',   gout:'Chocolat noir 70 %, caramel, praliné noisette', insert:'#9A5B22', mousse:'#5A3324', glace:'#241311'},
+  {id:'soleil', photo:'img/soleil.jpg', nom:'Soleil', gout:'Passion, mangue, mousse coco', insert:'#E9A21E', mousse:'#F6EFE3', glace:'#EFA21C'},
+  {id:'pistil', photo:'img/pistil.jpg', nom:'Pistil', gout:'Pistache de Sicile, griotte', insert:'#7E1022', mousse:'#C9D39A', glace:'#6F8F3A'},
+  {id:'nuage', photo:'img/nuage.jpg',  nom:'Nuage',  gout:'Vanille, caramel au beurre salé', insert:'#C27A2C', mousse:'#F3E6CF', glace:'#D4AC70'},
+  {id:'velours', photo:'img/velours.jpg',nom:'Velours',gout:'Cassis, violette, amande', insert:'#3E1530', mousse:'#C6A7C9', glace:'#4B1E4F'},
+];
+const PRIX={4:32,6:46,8:60}, PLAQUE=3;
+
+/* Couches, de bas en haut (hauteur en unités SVG) */
+function couches(e){
+  return [
+    {nom:'Sablé breton',  spec:'4 mm · beurre demi-sel · 170 °C',  c:'#C68B4A', h:16, tex:'miettes'},
+    {nom:'Biscuit amande',spec:'8 mm · imbibé sirop vanille',      c:'#E6C686', h:30, tex:'alveoles'},
+    {nom:'Croustillant',  spec:'3 mm · praliné noisette · feuilletine', c:'#8A5A2E', h:12, tex:'eclats'},
+    {nom:'Insert',        spec:'7 mm · fruit gélifié · −18 °C',     c:e.insert, h:26, tex:'grains'},
+    {nom:'Mousse',        spec:'22 mm · crème montée légère',        c:e.mousse, h:64, tex:null},
+    {nom:'Glaçage miroir',spec:'coulé à 35 °C · feuille d\'or',      c:e.glace,  h:10, tex:'glace'},
+  ];
+}
+const NOMS_GRENAT=['Sablé breton','Biscuit amande','Croustillant praliné','Insert framboise','Mousse vanille','Glaçage miroir'];
+
+/* ===== Anatomie au défilement =====
+   Une seule photo de coupe, découpée en 6 bandes (limites mesurées sur l'image, en px, hauteur totale 404, largeur 485). */
+const GRENAT=ENTREMETS[0];
+const IMG_W=485, IMG_H=404;
+const BANDES=[[343,404],[248,343],[191,248],[146,191],[64,146],[0,64]]; // de bas (sablé) en haut (glaçage)
+const LG=couches(GRENAT);
+const coupe=document.getElementById('coupe');
+coupe.innerHTML=BANDES.slice().reverse().map(([t,b],j)=>{
+  const h=b-t, pos=IMG_H-h?(t/(IMG_H-h)*100):0;
+  return `<span class="band" data-i="${5-j}" style="padding-top:${(h/IMG_W*100).toFixed(3)}%;background-position:0 ${pos.toFixed(3)}%"></span>`;
+}).join('');
+const bands=[...coupe.children].reverse(); // bands[0] = sablé
+const labelsEl=document.getElementById('labels');
+labelsEl.innerHTML=LG.map((c,i)=>`<div class="lbl" data-i="${i}"><h3><span class="n">0${i+1}</span>${NOMS_GRENAT[i]}</h3><p>${c.spec}</p></div>`).join('');
+const lbls=[...labelsEl.children];
+const anat=document.getElementById('anatomie'), cNum=document.getElementById('cNum'), cNom=document.getElementById('cNom'), lmob=document.getElementById('lmob');
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+let actif=-1;
+/* Lissage : la position suit le défilement avec inertie (interpolation à chaque image),
+   et le décalage latéral de la couche active glisse au lieu de sauter. */
+const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cible=0, cur=0, dxs=[0,0,0,0,0,0], bases=[], boucle=false;
+function mesurer(){
+  // centre de chaque bande, au repos, par rapport au haut de la colonne d'étiquettes
+  const cr=coupe.getBoundingClientRect(), lr=labelsEl.getBoundingClientRect();
+  let y=parseFloat(getComputedStyle(coupe).paddingTop);
+  const hs=[...coupe.children].map(b=>b.offsetHeight); // de haut en bas
+  const centresHautBas=hs.map(h=>{const c=y+h/2;y+=h;return c});
+  bases=centresHautBas.reverse().map(c=>c+(cr.top-lr.top));
+}
+function lireCible(){
+  const r=anat.getBoundingClientRect(), course=anat.offsetHeight-innerHeight;
+  cible=Math.max(0,Math.min(1,-r.top/course));
+}
+function dessiner(){
+  const prog=cur, t=Math.min(1,prog/.42), p=ease(t), gap=coupe.clientWidth*.085;
+  // ouverture en cascade : le glaçage se soulève d'abord, puis chaque couche suit
+  const ps=bands.map((b,i)=>ease(Math.max(0,Math.min(1,t*1.6-(5-i)*.12))));
+  // pendant l'ouverture on reste sur 01, puis une couche à la fois, de bas en haut
+  const a=prog<.42?0:Math.min(5,Math.floor((prog-.42)/.5*6));
+  let enMouvement=false;
+  bands.forEach((b,i)=>{
+    const vise=0;
+    dxs[i]+= (vise-dxs[i])*(reduit?1:.18);
+    if(Math.abs(vise-dxs[i])>.05) enMouvement=true;
+    b.style.transform=`translate3d(${dxs[i].toFixed(2)}px, ${(-ps[i]*gap*(i-2.5)).toFixed(2)}px, 0)`;
+  });
+  if(a!==actif){
+    actif=a;
+    bands.forEach((b,i)=>{b.classList.toggle('dim',i!==a);b.classList.toggle('on',i===a)});
+    cNum.textContent='0'+(a+1); cNom.textContent=NOMS_GRENAT[a];
+    lmob.innerHTML=`<b>${NOMS_GRENAT[a]}</b><br>${LG[a].spec}`;
+    lbls.forEach((l,i)=>l.classList.toggle('on',i===a));
+  }
+  coupe.classList.toggle('ouvert',prog>=.42);
+  const op=Math.max(0,Math.min(1,(p-.55)/.3)).toFixed(3);
+  lbls.forEach((l,i)=>{
+    l.style.transform=`translate3d(0, ${((bases[i]||0)-ps[i]*gap*(i-2.5)-12).toFixed(2)}px, 0)`;
+    l.style.opacity=op;
+  });
+  return enMouvement;
+}
+function tour(){
+  cur+= (cible-cur)*(reduit?1:.14);
+  if(Math.abs(cible-cur)<.0004) cur=cible;
+  const bouge=dessiner();
+  if(cur!==cible||bouge){requestAnimationFrame(tour)} else boucle=false;
+}
+function relancer(){lireCible(); if(!boucle){boucle=true;requestAnimationFrame(tour)}}
+addEventListener('scroll',relancer,{passive:true});
+addEventListener('resize',()=>{mesurer();relancer()});
+document.fonts && document.fonts.ready.then(()=>{mesurer();relancer()});
+mesurer(); lireCible(); cur=cible; dessiner();
+
+/* ===== Collection ===== */
+const grille=document.getElementById('grille');
+grille.innerHTML=ENTREMETS.map(e=>`<article class="carte">${e.signature?'<span class="signature">Signature</span>':''}<div class="ph"><img src="${e.photo}" width="1376" height="768" loading="lazy" alt="Entremets ${e.nom}, une part découpée"></div>
+  <div class="ligne"><h3><span class="pastille" style="background:${e.glace}"></span>${e.nom}</h3><span class="prix">dès 32 €</span></div>
+  <p class="gout">${e.gout}</p>
+  <button type="button" data-id="${e.id}">Commander le ${e.nom}</button></article>`).join('');
+grille.addEventListener('click',ev=>{
+  const b=ev.target.closest('button[data-id]'); if(!b) return;
+  fEnt.value=b.dataset.id; majRecap();
+  document.getElementById('commander').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+});
+
+/* ===== Chiffres animés ===== */
+(()=>{
+  const bs=[...document.querySelectorAll('#chiffres b')];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)) return;
+  const io=new IntersectionObserver(es=>{es.forEach(en=>{
+    if(!en.isIntersecting) return; io.unobserve(en.target);
+    const b=en.target, to=+b.dataset.to, suf=b.dataset.suf||'', t0=performance.now();
+    const step=t=>{const k=Math.min(1,(t-t0)/1200);b.textContent=Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+  })},{threshold:.6});
+  bs.forEach(b=>io.observe(b));
+})();
+
+/* ===== Commande ===== */
+const fEnt=document.getElementById('f-entremets'), fDate=document.getElementById('f-date'), fPlaque=document.getElementById('f-plaque'),
+      fNom=document.getElementById('f-nom'), fMail=document.getElementById('f-mail'), fTel=document.getElementById('f-tel'),
+      err=document.getElementById('err'), recap=document.getElementById('recap'), form=document.getElementById('form');
+fEnt.innerHTML=ENTREMETS.map(e=>`<option value="${e.id}">${e.nom} — ${e.gout}</option>`).join('');
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const minD=new Date(); minD.setDate(minD.getDate()+3);
+while([1,2].includes(minD.getDay())) minD.setDate(minD.getDate()+1);
+fDate.min=iso(minD); fDate.value=iso(minD);
+const fr=(s,opt={weekday:'long',day:'numeric',month:'long'})=>new Date(s+'T12:00').toLocaleDateString('fr-FR',opt);
+const taille=()=>+form.querySelector('input[name=taille]:checked').value;
+const ent=()=>ENTREMETS.find(e=>e.id===fEnt.value);
+const total=()=>PRIX[taille()]+(fPlaque.value.trim()?PLAQUE:0);
+let envoye=false;
+function majRecap(){
+  if(envoye) return;
+  const e=ent(), pl=fPlaque.value.trim();
+  recap.innerHTML=`<div class="ph"><img src="${e.photo}" width="1376" height="768" alt="Entremets ${e.nom}">${pl?`<span class="plaque">${pl.replace(/[<>&"]/g,'')}</span>`:''}</div>
+    <p class="eyebrow">Votre commande</p>
+    <h3>${e.nom}</h3>
+    <div class="ligne"><span>Taille</span><span>${taille()} parts · ${PRIX[taille()]} €</span></div>
+    <div class="ligne"><span>Plaque</span><span>${pl?'« '+pl.replace(/[<>&"]/g,'')+' » · '+PLAQUE+' €':'Sans message'}</span></div>
+    <div class="ligne"><span>Retrait</span><span>${fDate.value?fr(fDate.value):'À choisir'}</span></div>
+    <div class="total"><span class="legende">Total, payé au retrait</span><b>${total()} €</b></div>`;
+}
+form.addEventListener('input',()=>{err.textContent='';majRecap()});
+form.addEventListener('change',majRecap);
+majRecap();
+
+form.addEventListener('submit',ev=>{
+  ev.preventDefault();
+  const d=fDate.value, jour=d?new Date(d+'T12:00').getDay():null;
+  if(!d||d<fDate.min){err.textContent=`Choisissez une date à partir du ${fr(fDate.min)} (72 h de préparation).`;fDate.focus();return}
+  if(jour===1||jour===2){err.textContent='La boutique est fermée le lundi et le mardi. Choisissez un autre jour.';fDate.focus();return}
+  if(!fNom.value.trim()){err.textContent='Indiquez votre nom pour la commande.';fNom.focus();return}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(fMail.value.trim())){err.textContent='Indiquez une adresse e-mail valide pour recevoir le récapitulatif.';fMail.focus();return}
+  const e=ent(), num='STR-'+String(Math.floor(1000+Math.random()*9000)), veille=new Date(d+'T12:00'); veille.setDate(veille.getDate()-1);
+  const mail=fMail.value.trim().replace(/[<>&"]/g,'');
+  envoye=true;
+  recap.innerHTML=`<p class="eyebrow">Commande ${num}</p>
+    <h3>Merci, c'est noté.</h3>
+    <p><span class="statut">À confirmer</span></p>
+    <div class="ligne"><span>${e.nom}</span><span>${taille()} parts · ${total()} €</span></div>
+    <div class="ligne"><span>Retrait</span><span>${fr(d)}</span></div>
+    <p class="legende">Ce que l'automatisation déclenche</p>
+    <ol class="trace" id="trace">
+      <li><i>✓</i><div>Commande ajoutée dans Airtable<small>table Commandes · statut « À confirmer »</small></div></li>
+      <li><i>✓</i><div>E-mail de récapitulatif au client<small>${mail}</small></div></li>
+      <li><i>✓</i><div>Notification à l'atelier<small>nouvelle commande ${num}</small></div></li>
+      <li><i>✓</i><div>Rappel programmé<small>${veille.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} à 9 h</small></div></li>
+    </ol>
+    <p class="demo">Démonstration : sur ce projet concept, rien n'est réellement envoyé. La version connectée passe par Make et Airtable.</p>
+    <button class="btn ghost" type="button" id="encore">Nouvelle commande</button>`;
+  const lis=[...recap.querySelectorAll('.trace li')];
+  lis.forEach((li,i)=>setTimeout(()=>li.classList.add('ok'),350+i*650));
+  recap.querySelector('#encore').addEventListener('click',()=>{envoye=false;majRecap()});
+  if(innerWidth<900) recap.scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
